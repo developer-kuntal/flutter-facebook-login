@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>396345529378-oce6an3uijdih8l6akfacn491sh38vml.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.396345529378-oce6an3uijdih8l6akfacn491sh38vml</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBF204Now8sbZ5lNxdzZDo2XH5uV-Nc1To</string>
+	<key>GCM_SENDER_ID</key>
+	<string>396345529378</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.login.facebook</string>
+	<key>PROJECT_ID</key>
+	<string>flutterfacebook-8b641</string>
+	<key>STORAGE_BUCKET</key>
+	<string>flutterfacebook-8b641.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:396345529378:ios:41243ea97b627100</string>
+	<key>DATABASE_URL</key>
+	<string>https://flutterfacebook-8b641.firebaseio.com</string>
+</dict>
+</plist>
