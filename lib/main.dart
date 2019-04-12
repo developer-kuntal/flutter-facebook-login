@@ -21,14 +21,14 @@ class _MyMainPageState extends State<MyMainPage> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   bool isLogged = false;
   FirebaseUser myUser;
+  
 
   Future<Null> _loginWithFacebook() async {
 
     var facebookLogin = new FacebookLogin();
-    var result = await facebookLogin.logInWithReadPermissions(["email"]);
-
+    var result = await facebookLogin.logInWithReadPermissions(["public_profile", "email"]);
     // print(result.accessToken.token);
-
+    debugPrint(result.accessToken.toString());
     final AuthCredential credential = FacebookAuthProvider.getCredential(
       accessToken: result.accessToken.token
     );
