@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
-import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MaterialApp(
@@ -23,18 +21,35 @@ class _MyMainPageState extends State<MyMainPage> {
   FirebaseUser myUser;
   
 
-  Future<Null> _loginWithFacebook() async {
-
+  Future<FirebaseUser> _loginWithFacebook() async {
+    // facebook sign in
     var facebookLogin = new FacebookLogin();
-    var result = await facebookLogin.logInWithReadPermissions(["public_profile", "email"]);
-    // print(result.accessToken.token);
-    debugPrint(result.accessToken.toString());
-    final AuthCredential credential = FacebookAuthProvider.getCredential(
-      accessToken: result.accessToken.token
-    );
-
-    FirebaseUser user = await _auth.signInWithCredential(credential);
-    return user;
+    return facebookLogin.logInWithReadPermissions(['email', 'public_profile']).then((result) {
+        switch (result.status) {
+          case FacebookLoginStatus.loggedIn:
+            final AuthCredential credential = FacebookAuthProvider.getCredential(
+                accessToken: result.accessToken.token
+            );
+            _auth.signInWithCredential(credential).then((signedInUser) {
+              print('Signed in as ${signedInUser.displayName}');
+              // Navigator.of(context).pushReplacementNamed('/homepage');
+              return signedInUser;
+            }).catchError((e) {
+              print(e);
+              return null;
+            });
+            break;
+          case FacebookLoginStatus.cancelledByUser:
+            print('Cancelled by you');
+            return null;
+          case FacebookLoginStatus.error:
+            print('Error');
+            return null;
+        }
+    }).catchError((e) {
+        print(e);
+        return null;
+    });
   }
 
   Future<void> _logOut() async {
