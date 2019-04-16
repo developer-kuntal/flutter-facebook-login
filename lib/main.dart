@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:ansicolor/ansicolor.dart';
+
+AnsiPen pen = new AnsiPen()..white()..rgb(r: 1.0, g: 0.8, b: 0.2);
+// print(pen("White foreground with a peach background"));
 
 void main() {
   runApp(MaterialApp(
@@ -23,33 +27,51 @@ class _MyMainPageState extends State<MyMainPage> {
 
   Future<FirebaseUser> _loginWithFacebook() async {
     // facebook sign in
-    var facebookLogin = new FacebookLogin();
-    return facebookLogin.logInWithReadPermissions(['email', 'public_profile']).then((result) {
-        switch (result.status) {
-          case FacebookLoginStatus.loggedIn:
-            final AuthCredential credential = FacebookAuthProvider.getCredential(
-                accessToken: result.accessToken.token
-            );
-            _auth.signInWithCredential(credential).then((signedInUser) {
-              print('Signed in as ${signedInUser.displayName}');
-              // Navigator.of(context).pushReplacementNamed('/homepage');
-              return signedInUser;
-            }).catchError((e) {
-              print(e);
-              return null;
-            });
-            break;
-          case FacebookLoginStatus.cancelledByUser:
-            print('Cancelled by you');
-            return null;
-          case FacebookLoginStatus.error:
-            print('Error');
-            return null;
-        }
-    }).catchError((e) {
-        print(e);
-        return null;
+    
+    FacebookLogin facebookLogin = new FacebookLogin();
+    
+    // facebookLogin.currentAccessToken.then((token) {
+    //   print(pen("Token: ${token}"));
+    // });
+
+    FacebookLoginResult r = await facebookLogin.logInWithReadPermissions(['email']);
+    print(pen("Result0: ${r.status}"));
+
+    final AuthCredential credential = FacebookAuthProvider.getCredential(
+        accessToken: r.accessToken.token
+    );
+
+    return _auth.signInWithCredential(credential).then((signedInUser) {
+      return signedInUser;
     });
+    
+    // return facebookLogin.logInWithReadPermissions(['email']).then((result) { //, 'public_profile'
+    //     print("Result: ${result.status}");
+    //     switch (result.status) {
+    //       case FacebookLoginStatus.loggedIn:
+    //         final AuthCredential credential = FacebookAuthProvider.getCredential(
+    //             accessToken: result.accessToken.token
+    //         );
+    //         _auth.signInWithCredential(credential).then((signedInUser) {
+    //           print('Signed in as ${signedInUser.displayName}');
+    //           // Navigator.of(context).pushReplacementNamed('/homepage');
+    //           return signedInUser;
+    //         }).catchError((e) {
+    //           print(e);
+    //           return null;
+    //         });
+    //         break;
+    //       case FacebookLoginStatus.cancelledByUser:
+    //         print('Cancelled by you');
+    //         return null;
+    //       case FacebookLoginStatus.error:
+    //         print("Error");
+    //         return null;
+    //     }
+    // }).catchError((e) {
+    //     print("Error: ${e}");
+    //     return null;
+    // });
   }
 
   Future<void> _logOut() async {
